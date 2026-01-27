@@ -1,0 +1,89 @@
+# CMD for RoboGauge
+
+- [Single Pipeline](#single-pipeline): Evaluate metrics in a single run
+- [Multi Pipeline](#multi-pipeline): Evaluate metrics in multiple runs with different seeds and environment parameters
+- [Level Pipeline](#level-pipeline): Evaluate metrics across different terrain levels to find the maximum level the policy can handle
+- [Stress Pipeline](#stress-pipeline): Evaluate metrics across different terrain types and environment parameters to test policy robustness
+
+# Single Pipeline
+Evaluate metrics in a single run
+
+```bash
+# Default goals: max_velocity, diagonal_velocity
+python robogauge/scripts/run.py \
+    --task go2_moe.flat \
+    --experiment-name debug \
+    --headless
+
+# To evaluate metrics for level terrains, add `--goals` and `--spawn-type`
+# level terrains: wave, slope_fb, slope_bd, stairs_fb, stairs_bd, obstacle (default is target_pos)
+python robogauge/scripts/run.py \
+    --task go2_moe.obstacle \
+    --experiment-name debug \
+    --level 10 \
+    --friction 2 \
+    --spawn-type level_eval \
+    --goals max_velocity diagonal_velocity
+```
+
+# Multi Pipeline
+Evaluate metrics in multiple runs with different seeds and environment parameters
+
+```bash
+python robogauge/scripts/run.py \
+    --task go2_moe.flat \
+    --experiment-name debug \
+    --multi \
+    --num-processes 5 \
+    --seeds 0 1 2 \
+    --frictions 0.5 1.0 1.5 2.0 2.5 \
+    --compress-logs \
+    --headless
+
+# Terrain with Level, need specify goals (default is target_pos)
+python robogauge/scripts/run.py \
+    --task go2_moe.stairs_bd \
+    --experiment-name debug \
+    --multi \
+    --num-processes 5 \
+    --seeds 0 1 2 \
+    --frictions 2.0 \
+    --level 10 \
+    --spawn-type level_eval \
+    --goals max_velocity diagonal_velocity\
+    --compress-logs \
+    --headless
+```
+
+# Level Pipeline
+Evaluate metrics across different terrain levels to find the maximum level the policy can handle
+
+```bash
+# Must specify single frictions for LevelPipeline!
+python robogauge/scripts/run.py \
+    --task go2_moe.slope \
+    --experiment-name debug \
+    --search-max-level \
+    --seeds 0 1 2 \
+    --search-seeds 0 1 2 3 4 \
+    --frictions 1.0 \
+    --compress-logs \
+    --headless
+```
+
+# Stress Pipeline
+Evaluate metrics across different terrain types and environment parameters to test policy robustness
+
+```bash
+python robogauge/scripts/run.py \
+    --task go2_moe \
+    --experiment-name debug \
+    --stress-benchmark \
+    --stress-terrain-names flat slope_fd slope_bd stairs_fd stairs_bd wave obstacle \
+    --num-processes 50 \
+    --seeds 0 1 2 \
+    --search-seeds 0 1 2 3 4 \
+    --frictions 0.5 0.75 1.0 1.25 1.5 1.75 2.0 2.25 2.5 \
+    --compress-logs \
+    --headless
+```

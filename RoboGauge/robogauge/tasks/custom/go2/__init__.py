@@ -1,0 +1,5 @@
+from .go2_flat_task import Go2FlatGaugeConfig
+from .go2_slope_task import Go2SlopeForwardGaugeConfig, Go2SlopeBackwardGaugeConfig
+from .go2_wave_task import Go2WaveGaugeConfig
+from .go2_stairs_task import Go2StairsForwardGaugeConfig, Go2StairsBackwardGaugeConfig
+from .go2_obstacle_task import Go2ObstacleGaugeConfig

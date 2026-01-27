@@ -1,0 +1,26 @@
+FSM:
+  Passive:
+    mode: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    kd: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+  FixStand:
+    kp: [60, 80, 80, 60, 80, 80, 60, 80, 80, 60, 80, 80]
+    kd: [5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4]
+    ts: [0, 1, 2]
+    qs: [
+      [],
+      [0.0, 1.36, -2.65, 0.0, 1.36, -2.65, 0.0, 1.36, -2.65, 0.0, 1.36, -2.65],
+      [0., 0.8, -1.5, 0., 0.8, -1.5, 0., 0.8, -1.5, 0., 0.8, -1.5],
+    ]
+  Velocity:
+    policy_dir_up: ../../../logs/rsl_rl/go2_moe_cts_expert_goal_137000_0.6745  # best model
+    policy_dir_down: ../../../logs/rsl_rl/go2_moe_cts_fast_flat_v4_fz_54k  # fast model
+    policy_dir_left: null
+    policy_dir_right: null
+    logging: false
+    logging_dt: 0.01
+    fixed_command:
+      enabled: true
+      lin_vel_x: 1.0
+      lin_vel_y: 0.0
+      ang_vel_z: 0.0
+      duration: 3.0  # seconds, set to null for indefinite duration
